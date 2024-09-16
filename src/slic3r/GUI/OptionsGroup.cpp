@@ -1271,10 +1271,17 @@ wxString OptionsGroup::get_url(const std::string& path_end)
         str = str.Left(pos) + anchor;
     }
     std::string language = wxGetApp().app_config->get("language");
-    wxString    region    = L"en";
-    if (language.find("zh") == 0)
-        region = L"zh";
-    return wxString::Format(L"https://wiki.bambulab.com/%s/software/bambu-studio/%s", region, str);
+        wxString url;
+
+    if (language.find("zh") == 0) {
+        url = wxString::Format(L"https://wiki.bambulab.com/zh/software/bambu-studio/%s", str);
+    } else if (language.find("pl") == 0) {
+        url = wxString::Format(L"https://bambulab.get3d.pl/pl/software/bambu-studio/%s", str);
+    } else {
+        url = wxString::Format(L"https://wiki.bambulab.com/en/software/bambu-studio/%s", str);
+    }
+
+    return url;
 }
 
 bool OptionsGroup::launch_browser(const std::string& path_end)
